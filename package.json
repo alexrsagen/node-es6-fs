@@ -1,0 +1,26 @@
+{
+  "name": "es6-fs",
+  "version": "1.0.0",
+  "description": "Promise wrapper written in ES6 for the Node.js filesystem API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexrsagen/node-es6-fs.git"
+  },
+  "keywords": [
+    "promise",
+    "wrapper",
+    "filesystem",
+    "fs",
+    "es6"
+  ],
+  "author": "alexrsagen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/alexrsagen/node-es6-fs/issues"
+  },
+  "homepage": "https://github.com/alexrsagen/node-es6-fs#readme"
+}
