@@ -50,16 +50,16 @@ FS.recurseDir = (dirPath, options) => {
     includeDirectories: false
   }, options);
 
-  return this.readdir(dirPath)
+  return FS.readdir(dirPath)
   .then(entities => {
     let promises = [];
 
     entities.forEach(entity => {
       const entityPath = path.join(dirPath, entity);
-      const promise = this.stat(entityPath)
+      const promise = FS.stat(entityPath)
       .then(stats => {
         if (stats.isDirectory()) {
-          return this.recurseDir(entityPath)
+          return FS.recurseDir(entityPath)
           .then(paths => {
             if (options.includeDirectories) {
               return [entityPath].concat(paths);
@@ -130,12 +130,12 @@ FS.recurseDirSync = (dirPath, options) => {
   }, options);
 
   let paths = [];
-  const entities = this.readdirSync(dirPath);
+  const entities = FS.readdirSync(dirPath);
   entities.forEach(entity => {
     const entityPath = path.join(dirPath, entity);
-    const stats = this.statSync(entityPath);
+    const stats = FS.statSync(entityPath);
     if (stats.isDirectory()) {
-      const entityPaths = this.recurseDirSync(entityPath);
+      const entityPaths = FS.recurseDirSync(entityPath);
       if (options.includeDirectories) {
         paths.push([entityPath].concat(entityPaths));
       } else {
