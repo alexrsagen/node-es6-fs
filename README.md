@@ -6,6 +6,24 @@ Promise wrapper written in ES6 for the Node.js filesystem API
 npm install es6-fs --save
 ```
 
+## `FS` Custom asynchronous methods
+##### `FS`.recurseDir(dirPath[, options])
+Recurses a directory and returns all paths in the directory and all subdirectories.
+
+Options:
+- `includeDirectories` &lt;boolean&gt; (Defaults to `false`) - Whether to include directories in the returned paths (otherwise only files).
+
+Returns a promise that will resolve to an array of paths.
+
+## `FS` Custom synchronous methods
+##### `FS`.recurseDirSync(dirPath[, options])
+Recurses a directory and returns all paths in the directory and all subdirectories.
+
+Options:
+- `includeDirectories` &lt;boolean&gt; (Defaults to `false`) - Whether to include directories in the returned paths (otherwise only files).
+
+Returns an array of paths.
+
 ## `FS` Asynchronous (promisified) methods
 
 ##### `FS`.access(path[, mode])
@@ -25,6 +43,7 @@ See https://nodejs.org/dist/latest/docs/api/fs.html#fs_fs_close_fd_callback
 
 ##### `FS`.exists(path)
 Warning: Deprecated
+
 See https://nodejs.org/dist/latest/docs/api/fs.html#fs_fs_exists_path_callback
 
 ##### `FS`.fchmod(fd, mode)
@@ -50,10 +69,12 @@ See https://nodejs.org/dist/latest/docs/api/fs.html#fs_fs_futimes_fd_atime_mtime
 
 ##### `FS`.lchmod(path, mode)
 Note: Only available on macOS
+
 See https://nodejs.org/dist/latest/docs/api/fs.html#fs_fs_lchmod_path_mode_callback
 
 ##### `FS`.lchown(path, uid, gid)
 Note: Only available on macOS
+
 See https://nodejs.org/dist/latest/docs/api/fs.html#fs_fs_lchown_path_uid_gid_callback
 
 ##### `FS`.link(existingPath, newPath)

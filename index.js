@@ -44,6 +44,44 @@ FS.utimes             = util.promisify(fs.utimes);
 FS.writeFile          = util.promisify(fs.writeFile);
 FS.write              = util.promisify(fs.write);
 
+// Custom asynchronous methods
+FS.recurseDir = (dirPath, options) => {
+  options = Object.assign({
+    includeDirectories: false
+  }, options);
+
+  return this.readdir(dirPath)
+  .then(entities => {
+    let promises = [];
+
+    entities.forEach(entity => {
+      const entityPath = path.join(dirPath, entity);
+      const promise = this.stat(entityPath)
+      .then(stats => {
+        if (stats.isDirectory()) {
+          return this.recurseDir(entityPath)
+          .then(paths => {
+            if (options.includeDirectories) {
+              return [entityPath].concat(paths);
+            }
+
+            return paths;
+          });
+        }
+
+        return entityPath;
+      });
+
+      promises.push(promise);
+    });
+
+    return Promise.all(promises)
+    .then(paths => {
+      return [].concat.apply([], paths);
+    });
+  });
+}
+
 // Synchronous methods
 FS.accessSync         = fs.accessSync;
 FS.appendFileSync     = fs.appendFileSync;
@@ -84,6 +122,32 @@ FS.createWriteStream  = fs.createWriteStream;
 FS.watch              = fs.watch;
 FS.watchFile          = fs.watchFile;
 FS.unwatchFile        = fs.unwatchFile;
+
+// Custom synchronous methods
+FS.recurseDirSync = (dirPath, options) => {
+  options = Object.assign({
+    includeDirectories: false
+  }, options);
+
+  let paths = [];
+  const entities = this.readdirSync(dirPath);
+  entities.forEach(entity => {
+    const entityPath = path.join(dirPath, entity);
+    const stats = this.statSync(entityPath);
+    if (stats.isDirectory()) {
+      const entityPaths = this.recurseDirSync(entityPath);
+      if (options.includeDirectories) {
+        paths.push([entityPath].concat(entityPaths));
+      } else {
+        paths.push(entityPaths);
+      }
+    } else {
+      paths.push(entityPath);
+    }
+  });
+
+  return [].concat.apply([], paths);
+}
 
 // Properties
 FS.constants          = fs.constants;
