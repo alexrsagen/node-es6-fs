@@ -20,7 +20,7 @@ const custom = {
           const promise = FS.stat(entityPath)
           .then(stats => {
             if (stats.isDirectory()) {
-              return FS.recurseDir(entityPath)
+              return FS.recursedir(entityPath)
               .then(paths => {
                 if (options.includeDirectories) {
                   return [entityPath].concat(paths);
@@ -53,7 +53,7 @@ const custom = {
         const entityPath = path.join(dirPath, entity);
         const stats = FS.statSync(entityPath);
         if (stats.isDirectory()) {
-          const entityPaths = FS.recurseDirSync(entityPath);
+          const entityPaths = FS.recursedirSync(entityPath);
           if (options.includeDirectories) {
             paths.push([entityPath].concat(entityPaths));
           } else {
